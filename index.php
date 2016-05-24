@@ -1,18 +1,21 @@
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+require 'vendor/autoload.php';
 
-use Sven\Cinema\Availability;
+use Sven\Cinema\Cinema;
 
-// This would come from the DB / an API...
-$availabilityMap = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 1, 1, 0],
-    [0, 1, 1, 0, 1],
-    [1, 1, 1, 1, 1],
-];
+$cinema = new Cinema(32);
 
-$availability = new Availability($availabilityMap);
+?>
 
-$availability->rows();
-$availability->seats();
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Bioscoop Challenge</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+
+    </body>
+</html>
