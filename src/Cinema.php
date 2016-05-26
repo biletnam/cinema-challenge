@@ -39,10 +39,30 @@ class Cinema
             return null;
         }
 
-        $places = $this->availableSeats();
-        $offset = $this->findGap($amount, $places);
+        $available = $this->availableSeats();
+        $offset = $this->findGap($amount, $available);
 
-        return array_slice($places, $offset, $amount);
+        $seats = array_slice($available, $offset, $amount);
+        $this->takenSeats = array_merge($this->takenSeats, $seats);
+
+        return $seats;
+    }
+
+    /**
+     * Show an availability map of the entire cinema.
+     *
+     * @return array An array showing whether or not seats are taken.
+     */
+    public function all()
+    {
+        $seats = range(1, $this->capacity);
+        $output = [];
+
+        foreach ($seats as $key => $seat) {
+            $output[$key + 1] = $this->isTaken($seat);
+        }
+
+        return $output;
     }
 
     /**
@@ -55,6 +75,18 @@ class Cinema
     protected function canSeat(int $amount)
     {
         return ($this->capacity - count($this->takenSeats) >= $amount);
+    }
+
+    /**
+     * Check whether or not the given seat is taken already.
+     *
+     * @param integer $seatNumber The seatnumber to check.
+     *
+     * @return boolean Whether or not that seat taken already.
+     */
+    protected function isTaken($seatNumber)
+    {
+        return in_array($seatNumber, $this->takenSeats) ? 0 : 1;
     }
 
     /**
@@ -86,8 +118,10 @@ class Cinema
         $output = [];
 
         foreach ($available as $key => $seat) {
-            if (isset($available[$key + 1]) && $seat + 1 == $available[$key + 1]) {
-                $output[] = $key;
+            $nextSeat = isset($available[$key + 1]) ? $available[$key + 1] : $seat;
+
+            if ($seat + 1 == $nextSeat) {
+                array_push($output, $key);
 
                 continue;
             }

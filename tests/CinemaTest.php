@@ -23,6 +23,20 @@ class CinemaTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_a_map_of_the_entire_cinema()
+    {
+        $this->assertEquals(
+            [1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1],
+            $this->cinema(5)->all()
+        );
+
+        $this->assertEquals(
+            [1 => 0, 2 => 1, 3 => 0, 4 => 0, 5 => 1],
+            $this->cinema(5, [1, 3, 4])->all()
+        );
+    }
+
+    /** @test */
     public function it_returns_null_if_it_cant_seat_everyone()
     {
         $seatNumbers = $this->cinema(20)->seat(21);
