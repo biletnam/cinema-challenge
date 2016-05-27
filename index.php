@@ -5,9 +5,11 @@ require 'vendor/autoload.php';
 use Sven\Cinema\Cinema;
 
 $takenSeats = [3, 4, 5, 6, 8, 10, 13, 14, 15, 18, 19, 23, 24, 25, 29, 30, 32];
-$cinema = new Cinema(32, [1, 3]);
+$cinema = new Cinema(32, $takenSeats);
 
-var_dump($cinema->seat(2), $cinema->all());die;
+if (isset($_POST['seats']) && !empty($_POST['seats'])) {
+    $seats = $cinema->seat($_POST['seats']);
+}
 
 ?>
 
@@ -34,7 +36,11 @@ var_dump($cinema->seat(2), $cinema->all());die;
             </div>
 
             <form action="" method="POST">
-                <input type="number" name="seats" placeholder="Reserveer stoelen..." max="<?= array_count_values($cinema->all())[1] ?>">
+                <input type="number"
+                       name="seats"
+                       placeholder="Reserveer stoelen..."
+                       max="<?= array_count_values($cinema->all())[1] ?>"
+                >
                 <input type="submit" value="Submit">
                 <?php if(isset($seats) && !empty($seats)): ?>
                     <p>Succesvol gereserveerd voor stoelnummer(s):</p>

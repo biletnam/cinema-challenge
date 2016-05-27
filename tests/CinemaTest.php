@@ -63,6 +63,15 @@ class CinemaTest extends TestCase
     }
 
     /** @test */
+    public function it_finds_the_best_place_for_a_group()
+    {
+        $taken = [1, 3, 8, 9, 10];
+        $seatNumbers = $this->cinema(10, $taken)->seat(4);
+
+        $this->assertEquals([4, 5, 6, 7], $seatNumbers);
+    }
+
+    /** @test */
     public function it_splits_people_in_multiple_groups()
     {
         $taken = [1, 2, 3, 6, 8, 9, 13, 14];
@@ -74,7 +83,7 @@ class CinemaTest extends TestCase
     /** @test */
     public function it_prefers_the_whole_group_together()
     {
-        $taken = [1, 2, 6, 7, 8, 14];
+        $taken = [1, 2, 5, 7, 8, 14];
         $seatNumbers = $this->cinema(15, $taken)->seat(4);
 
         $this->assertEquals([9, 10, 11, 12], $seatNumbers);

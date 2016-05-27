@@ -117,22 +117,20 @@ class Cinema
     {
         $output = [];
 
-        foreach ($available as $key => $seat) {
-            $nextSeat = isset($available[$key + 1]) ? $available[$key + 1] : $seat;
-
-            if ($seat + 1 == $nextSeat) {
-                array_push($output, $key);
-
-                continue;
-            }
-
+        foreach ($available as $key => $currentSeat) {
             if (count($output) == $amount) {
                 break;
             }
 
-            $output = [];
+            $nextSeat = array_key_exists($key + 1, $available) ? $available[$key + 1] : 0;
+
+            $output[] = $key;
+
+            if ($currentSeat + 1 !== $nextSeat && count($output) !== $amount) {
+                $output = [];
+            }
         }
 
-        return isset($output[0]) ? $output[0] : 0;
+        return array_key_exists(0, $output) ? $output[0] : 0;
     }
 }
